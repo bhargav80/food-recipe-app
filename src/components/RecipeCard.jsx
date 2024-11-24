@@ -1,7 +1,9 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Link } from "react-router-dom";
-
+import { FavoritesContext } from '../context/FavoritesContext';
 const RecipeCard = ({ recipe }) => {
+  const { addFavorite, removeFavorite, favorites } = useContext(FavoritesContext);
+ const isFavorite = favorites.some((fav) => fav.idMeal === recipe.idMeal);
   const truncateText = (text, length) => {
     if (!text) return "";
     return text.length > length ? text.substring(0, length) + "..." : text;
@@ -25,6 +27,9 @@ const RecipeCard = ({ recipe }) => {
         >
           View Recipe
         </Link>
+        <button  onClick={() => (isFavorite ? removeFavorite(recipe.idMeal) : addFavorite(recipe))}>
+        {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+      </button>
       </div>
     </div>
   );
